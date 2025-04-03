@@ -1,0 +1,694 @@
+// Dlg1.cpp : implementation file
+//
+
+#include "stdafx.h"
+#include "Dlg1.h"
+#include "VERSION_4Dlg.h"
+
+IMPLEMENT_DYNAMIC(CDlg1, CDialog)
+CDlg1::~CDlg1()
+{
+	
+}
+
+void CDlg1::DoDataExchange(CDataExchange* pDX)
+{
+	CDialog::DoDataExchange(pDX);
+
+	DDX_Control(pDX, IDC_RPM,		m_UST_Freq_Rot);
+	DDX_Control(pDX, IDC_STOP,		m_UST_Stop);
+	DDX_Control(pDX, IDC_RUN,		m_UST_Run);
+	DDX_Control(pDX, IDC_HOLOST,	m_UST_Holost);
+	DDX_Control(pDX, IDC_NAGR,		m_UST_Nagr);
+	DDX_Control(pDX, IDC_POSITION,	m_UST_Position);
+	DDX_Control(pDX, IDC_REYKA_EDIT,	m_UST_Reyka);
+	DDX_Control(pDX, IDC_CHECK_REYKA,		m_UST_Reyka_Set);
+}
+
+
+BEGIN_MESSAGE_MAP(CDlg1, CDialog)
+	ON_WM_CTLCOLOR()
+	ON_EN_CHANGE(IDC_RPM, OnEnChangeUST_Freq_Rot)
+	ON_BN_CLICKED(IDC_RADIO1, OnBnClickedPosition_1)
+	ON_BN_CLICKED(IDC_RADIO2, OnBnClickedPosition_2)
+	ON_BN_CLICKED(IDC_RADIO3, OnBnClickedPosition_3)
+	ON_BN_CLICKED(IDC_RADIO4, OnBnClickedPosition_4)
+	ON_BN_CLICKED(IDC_RADIO5, OnBnClickedPosition_5)
+	ON_BN_CLICKED(IDC_RADIO6, OnBnClickedPosition_6)
+	ON_BN_CLICKED(IDC_RADIO7, OnBnClickedPosition_7)
+	ON_BN_CLICKED(IDC_RADIO8, OnBnClickedPosition_8)
+	ON_BN_CLICKED(IDC_RADIO9, OnBnClickedPosition_9)
+	ON_BN_CLICKED(IDC_RADIO10, OnBnClickedPosition_10)
+	ON_BN_CLICKED(IDC_RADIO11, OnBnClickedPosition_11)
+	ON_BN_CLICKED(IDC_RADIO12, OnBnClickedPosition_12)
+	ON_BN_CLICKED(IDC_RADIO13, OnBnClickedPosition_13)
+	ON_BN_CLICKED(IDC_RADIO14, OnBnClickedPosition_14)
+	ON_BN_CLICKED(IDC_RADIO15, OnBnClickedPosition_15)
+
+	ON_BN_CLICKED(IDC_STOP, OnStop)
+	ON_BN_CLICKED(IDC_RUN,  OnRun)
+
+	ON_BN_CLICKED(IDC_NAGR,  OnNagr)
+	ON_BN_CLICKED(IDC_HOLOST,OnHolost)
+
+	ON_BN_CLICKED(IDC_CHECK_REYKA, OnReykaSet)
+
+	ON_WM_CLOSE()
+	ON_WM_SHOWWINDOW()
+END_MESSAGE_MAP()
+
+// переопределим для защиты
+BOOL CDlg1::Create(UINT ID, CVERSION_4Dlg* pParentWnd)
+{
+	MAIN_WINDOW=pParentWnd;	//сохраним указатель на родителя
+
+	return CDialog::Create(ID, pParentWnd);
+}
+
+BOOL CDlg1::OnInitDialog()
+{
+	CDialog::OnInitDialog();
+	/********	СОЗДАДИМ КРАСИВЫЕ НАДПИСИ	*******************************/
+	static CFont m_Font;
+	m_Font.DeleteObject();  //на всякий случай
+	m_Font.CreateFont		/*Выставим шрифт побольше*/
+		(
+			-20,                   // nHeight
+			0,                         // nWidth
+			0,                         // nEscapement
+			0,                         // nOrientation
+			FW_NORMAL,                 // nWeight
+			FALSE,                     // bItalic
+			FALSE,                     // bUnderline
+			0,                         // cStrikeOut
+			DEFAULT_CHARSET,           // nCharSet
+			OUT_DEFAULT_PRECIS,        // nOutPrecision
+			CLIP_DEFAULT_PRECIS,       // nClipPrecision
+			DEFAULT_QUALITY,           // nQuality
+			DEFAULT_PITCH | FF_SWISS,  // nPitchAndFamily
+			_T("Times New Roman"));                 // lpszFacename
+
+	GetDlgItem(IDC_STATIC1)->SetFont(&m_Font,true);
+	GetDlgItem(IDC_STATIC2)->SetFont(&m_Font,true);
+
+	static CFont m_Font2;
+	m_Font.DeleteObject();  //на всякий случай
+	m_Font.CreateFont		/*Выставим шрифт побольше*/
+		(
+			-22,                   // nHeight
+			0,                         // nWidth
+			0,                         // nEscapement
+			0,                         // nOrientation
+			FW_BOLD,                 // nWeight
+			FALSE,                     // bItalic
+			FALSE,                     // bUnderline
+			0,                         // cStrikeOut
+			DEFAULT_CHARSET,           // nCharSet
+			OUT_DEFAULT_PRECIS,        // nOutPrecision
+			CLIP_DEFAULT_PRECIS,       // nClipPrecision
+			DEFAULT_QUALITY,           // nQuality
+			DEFAULT_PITCH | FF_SWISS,  // nPitchAndFamily
+			_T("Times New Roman"));                 // lpszFacename
+
+	m_UST_Position.SetFont(&m_Font,true);
+	m_UST_Freq_Rot.SetFont(&m_Font,true);
+	m_UST_Reyka.SetFont(&m_Font,true);
+
+	m_bReyka_Edit = false;
+
+	/*
+	С номером выбранной позиции не все так гладко, т.к. главный класс автоматически 
+	проставляет только уставку по оборотам, поэтому нужно согласовать выбранные по-
+	зиции при старте вручную
+	*/
+	//проставим номер 1 по умолчанию выбранной позиции в специально отведенном окошечке
+	m_UST_Position.SetWindowText(_T("1"));
+	//и нажмем кнопку на этой позиции
+	((CButton *)GetDlgItem(IDC_RADIO1))->SetCheck(BST_CHECKED);
+
+
+	((CButton *)GetDlgItem(IDC_RADIO1))->ModifyStyle(0,BS_OWNERDRAW);
+	((CButton *)GetDlgItem(IDC_RADIO2))->ModifyStyle(0,BS_OWNERDRAW);
+	((CButton *)GetDlgItem(IDC_RADIO3))->ModifyStyle(0,BS_OWNERDRAW);
+	((CButton *)GetDlgItem(IDC_RADIO4))->ModifyStyle(0,BS_OWNERDRAW);
+	((CButton *)GetDlgItem(IDC_RADIO5))->ModifyStyle(0,BS_OWNERDRAW);
+	((CButton *)GetDlgItem(IDC_RADIO6))->ModifyStyle(0,BS_OWNERDRAW);
+	((CButton *)GetDlgItem(IDC_RADIO7))->ModifyStyle(0,BS_OWNERDRAW);
+	((CButton *)GetDlgItem(IDC_RADIO8))->ModifyStyle(0,BS_OWNERDRAW);
+	((CButton *)GetDlgItem(IDC_RADIO9))->ModifyStyle(0,BS_OWNERDRAW);
+	((CButton *)GetDlgItem(IDC_RADIO10))->ModifyStyle(0,BS_OWNERDRAW);
+	((CButton *)GetDlgItem(IDC_RADIO11))->ModifyStyle(0,BS_OWNERDRAW);
+	((CButton *)GetDlgItem(IDC_RADIO12))->ModifyStyle(0,BS_OWNERDRAW);
+	((CButton *)GetDlgItem(IDC_RADIO13))->ModifyStyle(0,BS_OWNERDRAW);
+	((CButton *)GetDlgItem(IDC_RADIO14))->ModifyStyle(0,BS_OWNERDRAW);
+	((CButton *)GetDlgItem(IDC_RADIO15))->ModifyStyle(0,BS_OWNERDRAW);
+	
+	r1.Attach(IDC_RADIO1, this, BGColorEn, RGB(0, 0, 0), RGB(255, 0, 255), 2);
+	r2.Attach(IDC_RADIO2, this, BGColorDis, RGB(0, 0, 0), RGB(255, 0, 255), 2);
+	r3.Attach(IDC_RADIO3, this, BGColorDis, RGB(0, 0, 0), RGB(255, 0, 255), 2);
+	r4.Attach(IDC_RADIO4, this, BGColorDis, RGB(0, 0, 0), RGB(255, 0, 255), 2);
+	r5.Attach(IDC_RADIO5, this, BGColorDis, RGB(0, 0, 0), RGB(255, 0, 255), 2);
+	r6.Attach(IDC_RADIO6, this, BGColorDis, RGB(0, 0, 0), RGB(255, 0, 255), 2);
+	r7.Attach(IDC_RADIO7, this, BGColorDis, RGB(0, 0, 0), RGB(255, 0, 255), 2);
+	r8.Attach(IDC_RADIO8, this, BGColorDis, RGB(0, 0, 0), RGB(255, 0, 255), 2);
+	r9.Attach(IDC_RADIO9, this, BGColorDis, RGB(0, 0, 0), RGB(255, 0, 255), 2);
+	r10.Attach(IDC_RADIO10, this, BGColorDis, RGB(0, 0, 0), RGB(255, 0, 255), 2);
+	r11.Attach(IDC_RADIO11, this, BGColorDis, RGB(0, 0, 0), RGB(255, 0, 255), 2);
+	r12.Attach(IDC_RADIO12, this, BGColorDis, RGB(0, 0, 0), RGB(255, 0, 255), 2);
+	r13.Attach(IDC_RADIO13, this, BGColorDis, RGB(0, 0, 0), RGB(255, 0, 255), 2);
+	r14.Attach(IDC_RADIO14, this, BGColorDis, RGB(0, 0, 0), RGB(255, 0, 255), 2);
+	r15.Attach(IDC_RADIO15, this, BGColorDis, RGB(0, 0, 0), RGB(255, 0, 255), 2);
+	prev_regime=&r1;	//во избежании глюков
+
+	//красивая кнопки пуска
+	m_UST_Run.ModifyStyle(0,BS_OWNERDRAW);
+	m_UST_Run.SetBGColor(BGColorDis);
+	m_UST_Run.SetFGColor(RGB(0, 0, 0));
+	m_UST_Run.SetDisabledColor(RGB(255, 0, 255));
+	m_UST_Run.SetBevel(2);
+
+	//красивая кнопка стопа
+	m_UST_Stop.ModifyStyle(0,BS_OWNERDRAW);
+	m_UST_Stop.SetBGColor(BGColorEn);
+	m_UST_Stop.SetFGColor(RGB(0, 0, 0));
+	m_UST_Stop.SetDisabledColor(RGB(255, 0, 255));
+	m_UST_Stop.SetBevel(2);
+
+	//красивая кнопка холостого хода
+	m_UST_Holost.ModifyStyle(0,BS_OWNERDRAW);
+	m_UST_Holost.SetBGColor(BGColorEn);
+	m_UST_Holost.SetFGColor(RGB(0, 0, 0));
+	m_UST_Holost.SetDisabledColor(RGB(255, 0, 255));
+	m_UST_Holost.SetBevel(2);
+
+	//красивая кнопка холостого рабочего режима
+	m_UST_Nagr.ModifyStyle(0,BS_OWNERDRAW);
+	m_UST_Nagr.SetBGColor(BGColorDis);
+	m_UST_Nagr.SetFGColor(RGB(0, 0, 0));
+	m_UST_Nagr.SetDisabledColor(RGB(255, 0, 255));
+	m_UST_Nagr.SetBevel(2);
+
+	//красивая кнопка холостого рабочего режима
+	m_UST_Reyka_Set.ModifyStyle(0,BS_OWNERDRAW);
+	m_UST_Reyka_Set.SetBGColor(BGColorDis);
+	m_UST_Reyka_Set.SetFGColor(RGB(0, 0, 0));
+	m_UST_Reyka_Set.SetDisabledColor(RGB(255, 0, 255));
+	m_UST_Reyka_Set.SetBevel(2);
+
+	//
+	m_UST_Reyka.SetWindowText(_T("0.0"));
+	m_UST_Reyka.EnableWindow(FALSE);
+	m_UST_Reyka_Set.SetBGColor(BGColorDis);
+
+	return TRUE;  // return TRUE unless you set the focus to a control
+}
+
+void CDlg1::OnClose()
+{
+	// TODO: Add your message handler code here and/or call default
+
+	CDialog::OnClose();
+}
+
+HBRUSH CDlg1::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	/*
+	CTLCOLOR_BTN    	Кнопка
+	CTLCOLOR_DLG    	Диалог
+	CTLCOLOR_EDIT   	Элемент редактирования
+	CTLCOLOR_LISTBOX 	Список  
+	CTLCOLOR_MSGBOX   	Окно сообщений
+	CTLCOLOR_SCROLLBAR  Скролинг
+	CTLCOLOR_STATIC   	Статический текст
+	*/
+	if (CTLCOLOR_EDIT == nCtlColor)
+	{
+		UINT id = pWnd->GetDlgCtrlID();
+		
+		pDC->SetTextColor			(RGB(0,000,000));	//цвет текста
+		pDC->SetBkColor				(RGB(070,198,240));	//цвет за текстом 
+		SetDCBrushColor(pDC->m_hDC,	 RGB(070,198,240));	//цвет эдитика
+		return (HBRUSH)::GetStockObject(DC_BRUSH);		//восстановим эти параметры
+	}
+
+	if (CTLCOLOR_STATIC == nCtlColor)
+	{
+		UINT id = pWnd->GetDlgCtrlID();
+
+		pDC->SetTextColor			(RGB(000,000,000));	//цвет текста
+		pDC->SetBkColor				(RGB(070,198,240));	//цвет за текстом 
+		SetDCBrushColor(pDC->m_hDC,	 RGB(070,198,240));	//цвет эдитика
+		return (HBRUSH)::GetStockObject(DC_BRUSH);		//восстановим эти параметры
+		
+	}
+
+	if (CTLCOLOR_DLG == nCtlColor)
+	{
+		SetDCBrushColor(pDC->m_hDC,RGB(15,196,211));	//цвет заднего плана
+		return (HBRUSH)::GetStockObject(DC_BRUSH);		//восстановим эти параметры
+	}
+
+	return hbr;
+}
+
+//********************************************************************
+
+void CDlg1::OnEnChangeUST_Freq_Rot()
+{
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Freq_Rot(true))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+}
+
+//********************************************************************
+
+void CDlg1::OnReykaSet()
+{
+	float temp;
+	CString s;
+
+
+	if (m_bReyka_Edit == false) {
+		m_bReyka_Edit = true;
+
+		m_UST_Reyka.EnableWindow(TRUE);
+		m_UST_Reyka.SetFocus();
+		m_UST_Reyka.SetSel(0, -1);
+		m_UST_Reyka_Set.SetBGColor(BGColorEn);
+
+	} else {
+		m_UST_Reyka.GetWindowText(s);
+		temp = (float)_wtof(s.GetBuffer());
+		s.ReleaseBuffer();
+		if (temp > 30.0f)
+			temp = 30.0f;
+		
+		s.Format(_T("%.2f"), temp);
+		m_UST_Reyka.SetWindowText(s);
+
+		m_bReyka_Edit = false;
+		m_UST_Reyka.EnableWindow(FALSE);
+		m_UST_Reyka_Set.SetBGColor(BGColorDis);
+	}
+
+//	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_ONLOAD(false))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+}
+
+
+
+//******************************************************************************************
+void CDlg1::OnBnClickedPosition_1()
+{
+	//проставим номер выбранной позиции в специально отведенном окошечке
+	m_UST_Position.SetWindowText(_T("1"));
+
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Freq_Rot(false,(FP32)MAIN_WINDOW->Dlg5.Positions_data.Pos[0]))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+	if(prev_regime!=NULL)
+	{
+		prev_regime->SetBGColor(BGColorDis);//перестанем подсвечивать предыдущий режим
+		prev_regime->Invalidate();			//перерисуем предыдущую кнопку
+		prev_regime=&r1;					//выставим правильный указатель для следующего режима
+		r1.SetBGColor(BGColorEn);			//выставим цвет поярче
+		r1.Invalidate();					//перерисуем эту кнопку
+	}
+
+}
+void CDlg1::OnBnClickedPosition_2()
+{
+	//проставим номер выбранной позиции в специально отведенном окошечке
+	m_UST_Position.SetWindowText(_T("2"));
+
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Freq_Rot(false,(FP32)MAIN_WINDOW->Dlg5.Positions_data.Pos[1]))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+	if(prev_regime!=NULL)
+	{
+		prev_regime->SetBGColor(BGColorDis);//перестанем подсвечивать предыдущий режим
+		prev_regime->Invalidate();			//перерисуем предыдущую кнопку
+		prev_regime=&r2;					//выставим правильный указатель для следующего режима
+		r2.SetBGColor(BGColorEn);			//выставим цвет поярче
+		r2.Invalidate();					//перерисуем эту кнопку
+	}
+}
+void CDlg1::OnBnClickedPosition_3()
+{
+	//проставим номер выбранной позиции в специально отведенном окошечке
+	m_UST_Position.SetWindowText(_T("3"));
+
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Freq_Rot(false,(FP32)MAIN_WINDOW->Dlg5.Positions_data.Pos[2]))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+	if(prev_regime!=NULL)
+	{
+		prev_regime->SetBGColor(BGColorDis);//перестанем подсвечивать предыдущий режим
+		prev_regime->Invalidate();			//перерисуем предыдущую кнопку
+		prev_regime=&r3;					//выставим правильный указатель для следующего режима
+		r3.SetBGColor(BGColorEn);			//выставим цвет поярче
+		r3.Invalidate();					//перерисуем эту кнопку
+	}
+}
+void CDlg1::OnBnClickedPosition_4()
+{
+	//проставим номер выбранной позиции в специально отведенном окошечке
+	m_UST_Position.SetWindowText(_T("4"));
+
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Freq_Rot(false,(FP32)MAIN_WINDOW->Dlg5.Positions_data.Pos[3]))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+	if(prev_regime!=NULL)
+	{
+		prev_regime->SetBGColor(BGColorDis);//перестанем подсвечивать предыдущий режим
+		prev_regime->Invalidate();			//перерисуем предыдущую кнопку
+		prev_regime=&r4;					//выставим правильный указатель для следующего режима
+		r4.SetBGColor(BGColorEn);			//выставим цвет поярче
+		r4.Invalidate();					//перерисуем эту кнопку
+	}
+}
+void CDlg1::OnBnClickedPosition_5()
+{
+	//проставим номер выбранной позиции в специально отведенном окошечке
+	m_UST_Position.SetWindowText(_T("5"));
+
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Freq_Rot(false,(FP32)MAIN_WINDOW->Dlg5.Positions_data.Pos[4]))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+	if(prev_regime!=NULL)
+	{
+		prev_regime->SetBGColor(BGColorDis);//перестанем подсвечивать предыдущий режим
+		prev_regime->Invalidate();			//перерисуем предыдущую кнопку
+		prev_regime=&r5;					//выставим правильный указатель для следующего режима
+		r5.SetBGColor(BGColorEn);			//выставим цвет поярче
+		r5.Invalidate();					//перерисуем эту кнопку
+	}
+}
+void CDlg1::OnBnClickedPosition_6()
+{
+	//проставим номер выбранной позиции в специально отведенном окошечке
+	m_UST_Position.SetWindowText(_T("6"));
+
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Freq_Rot(false,(FP32)MAIN_WINDOW->Dlg5.Positions_data.Pos[5]))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+	if(prev_regime!=NULL)
+	{
+		prev_regime->SetBGColor(BGColorDis);//перестанем подсвечивать предыдущий режим
+		prev_regime->Invalidate();			//перерисуем предыдущую кнопку
+		prev_regime=&r6;					//выставим правильный указатель для следующего режима
+		r6.SetBGColor(BGColorEn);			//выставим цвет поярче
+		r6.Invalidate();					//перерисуем эту кнопку
+	}
+}
+void CDlg1::OnBnClickedPosition_7()
+{
+	//проставим номер выбранной позиции в специально отведенном окошечке
+	m_UST_Position.SetWindowText(_T("7"));
+
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Freq_Rot(false,(FP32)MAIN_WINDOW->Dlg5.Positions_data.Pos[6]))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+	if(prev_regime!=NULL)
+	{
+		prev_regime->SetBGColor(BGColorDis);//перестанем подсвечивать предыдущий режим
+		prev_regime->Invalidate();			//перерисуем предыдущую кнопку
+		prev_regime=&r7;					//выставим правильный указатель для следующего режима
+		r7.SetBGColor(BGColorEn);			//выставим цвет поярче
+		r7.Invalidate();					//перерисуем эту кнопку
+	}
+}
+void CDlg1::OnBnClickedPosition_8()
+{
+	//проставим номер выбранной позиции в специально отведенном окошечке
+	m_UST_Position.SetWindowText(_T("8"));
+
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Freq_Rot(false,(FP32)MAIN_WINDOW->Dlg5.Positions_data.Pos[7]))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+	if(prev_regime!=NULL)
+	{
+		prev_regime->SetBGColor(BGColorDis);//перестанем подсвечивать предыдущий режим
+		prev_regime->Invalidate();			//перерисуем предыдущую кнопку
+		prev_regime=&r8;					//выставим правильный указатель для следующего режима
+		r8.SetBGColor(BGColorEn);			//выставим цвет поярче
+		r8.Invalidate();					//перерисуем эту кнопку
+	}
+}
+void CDlg1::OnBnClickedPosition_9()
+{
+	//проставим номер выбранной позиции в специально отведенном окошечке
+	m_UST_Position.SetWindowText(_T("9"));
+
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Freq_Rot(false,(FP32)MAIN_WINDOW->Dlg5.Positions_data.Pos[8]))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+	if(prev_regime!=NULL)
+	{
+		prev_regime->SetBGColor(BGColorDis);//перестанем подсвечивать предыдущий режим
+		prev_regime->Invalidate();			//перерисуем предыдущую кнопку
+		prev_regime=&r9;					//выставим правильный указатель для следующего режима
+		r9.SetBGColor(BGColorEn);			//выставим цвет поярче
+		r9.Invalidate();					//перерисуем эту кнопку
+	}
+}
+void CDlg1::OnBnClickedPosition_10()
+{
+	//проставим номер выбранной позиции в специально отведенном окошечке
+	m_UST_Position.SetWindowText(_T("10"));
+
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Freq_Rot(false,(FP32)MAIN_WINDOW->Dlg5.Positions_data.Pos[9]))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+	if(prev_regime!=NULL)
+	{
+		prev_regime->SetBGColor(BGColorDis);//перестанем подсвечивать предыдущий режим
+		prev_regime->Invalidate();			//перерисуем предыдущую кнопку
+		prev_regime=&r10;					//выставим правильный указатель для следующего режима
+		r10.SetBGColor(BGColorEn);			//выставим цвет поярче
+		r10.Invalidate();					//перерисуем эту кнопку
+	}
+}
+void CDlg1::OnBnClickedPosition_11()
+{
+	//проставим номер выбранной позиции в специально отведенном окошечке
+	m_UST_Position.SetWindowText(_T("11"));
+
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Freq_Rot(false,(FP32)MAIN_WINDOW->Dlg5.Positions_data.Pos[10]))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+	if(prev_regime!=NULL)
+	{
+		prev_regime->SetBGColor(BGColorDis);//перестанем подсвечивать предыдущий режим
+		prev_regime->Invalidate();			//перерисуем предыдущую кнопку
+		prev_regime=&r11;					//выставим правильный указатель для следующего режима
+		r11.SetBGColor(BGColorEn);			//выставим цвет поярче
+		r11.Invalidate();					//перерисуем эту кнопку
+	}
+}
+void CDlg1::OnBnClickedPosition_12()
+{
+	//проставим номер выбранной позиции в специально отведенном окошечке
+	m_UST_Position.SetWindowText(_T("12"));
+
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Freq_Rot(false,(FP32)MAIN_WINDOW->Dlg5.Positions_data.Pos[11]))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+	if(prev_regime!=NULL)
+	{
+		prev_regime->SetBGColor(BGColorDis);//перестанем подсвечивать предыдущий режим
+		prev_regime->Invalidate();			//перерисуем предыдущую кнопку
+		prev_regime=&r12;					//выставим правильный указатель для следующего режима
+		r12.SetBGColor(BGColorEn);			//выставим цвет поярче
+		r12.Invalidate();					//перерисуем эту кнопку
+	}
+}
+void CDlg1::OnBnClickedPosition_13()
+{
+	//проставим номер выбранной позиции в специально отведенном окошечке
+	m_UST_Position.SetWindowText(_T("13"));
+
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Freq_Rot(false,(FP32)MAIN_WINDOW->Dlg5.Positions_data.Pos[12]))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+	if(prev_regime!=NULL)
+	{
+		prev_regime->SetBGColor(BGColorDis);//перестанем подсвечивать предыдущий режим
+		prev_regime->Invalidate();			//перерисуем предыдущую кнопку
+		prev_regime=&r13;					//выставим правильный указатель для следующего режима
+		r13.SetBGColor(BGColorEn);			//выставим цвет поярче
+		r13.Invalidate();					//перерисуем эту кнопку
+	}
+}
+void CDlg1::OnBnClickedPosition_14()
+{
+	//проставим номер выбранной позиции в специально отведенном окошечке
+	m_UST_Position.SetWindowText(_T("14"));
+
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Freq_Rot(false,(FP32)MAIN_WINDOW->Dlg5.Positions_data.Pos[13]))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+	if(prev_regime!=NULL)
+	{
+		prev_regime->SetBGColor(BGColorDis);//перестанем подсвечивать предыдущий режим
+		prev_regime->Invalidate();			//перерисуем предыдущую кнопку
+		prev_regime=&r14;					//выставим правильный указатель для следующего режима
+		r14.SetBGColor(BGColorEn);			//выставим цвет поярче
+		r14.Invalidate();					//перерисуем эту кнопку
+	}
+}
+void CDlg1::OnBnClickedPosition_15()
+{
+	//проставим номер выбранной позиции в специально отведенном окошечке
+	m_UST_Position.SetWindowText(_T("15"));
+
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Freq_Rot(false,(FP32)MAIN_WINDOW->Dlg5.Positions_data.Pos[14]))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+	if(prev_regime!=NULL)
+	{
+		prev_regime->SetBGColor(BGColorDis);//перестанем подсвечивать предыдущий режим
+		prev_regime->Invalidate();			//перерисуем предыдущую кнопку
+		prev_regime=&r15;					//выставим правильный указатель для следующего режима
+		r15.SetBGColor(BGColorEn);			//выставим цвет поярче
+	}
+}
+
+//******************************************************************************************
+void CDlg1::OnStop()
+{
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Run_Stop(false))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+}
+void CDlg1::OnRun()
+{
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_Run_Stop(true))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+}
+
+//*********************************************************************************************
+//******************************************************************************************
+void CDlg1::OnNagr()
+{
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_ONLOAD(true))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+	
+}
+void CDlg1::OnHolost()
+{
+	if(!MAIN_WINDOW->GLAVNIY_CLASS.Add_UST_ONLOAD(false))
+	{//были ошибки, опевестим о них
+	//	MAIN_WINDOW->ShowERROR(MAIN_WINDOW->GLAVNIY_CLASS.m_Error,true);
+	}
+}
+
+//*********************************************************************************************
+
+
+void CDlg1::OnShowWindow(BOOL bShow, UINT nStatus)
+{
+	CDialog::OnShowWindow(bShow, nStatus);
+
+	// TODO: Add your message handler code here
+}
+
+/***************************	PreTranslateMessage(MSG *pMsg)	***********************************
+*	Лично я использую эту функцию только, чтобы отловить горячие клавиши
+***************************************************************************************************/
+BOOL CDlg1::PreTranslateMessage(MSG *pMsg)
+{
+	int k=0;
+
+
+	switch(pMsg->message)
+	{
+	case WM_KEYDOWN:
+		switch(pMsg->wParam)
+		{
+			//Следующие сообщения нужны не этому, окну, а всей программе в целом,
+			//поэтому отправим его главному окну
+			case VK_ESCAPE:
+			case VK_RETURN:
+			break;
+		}
+		break;
+	}
+
+	if (pMsg->hwnd == GetDlgItem(IDC_REYKA_EDIT)->m_hWnd)
+	{
+		return CDialog::PreTranslateMessage(pMsg);	
+	}
+		
+
+	switch(pMsg->message)
+	{
+	case WM_KEYDOWN:
+		switch(pMsg->wParam)
+		{
+			//Следующие сообщения нужны не этому, окну, а всей программе в целом,
+			//поэтому отправим его главному окну
+			case VK_ESCAPE:
+			case VK_RETURN:
+			case '1':
+			case VK_NUMPAD1:
+			case '2':
+			case VK_NUMPAD2:
+			case '3':
+			case VK_NUMPAD3:
+			case '4':
+			case VK_NUMPAD4:
+			case '5':
+			case VK_NUMPAD5:
+			case '6':
+			case VK_NUMPAD6:
+			case '7':
+			case VK_NUMPAD7:
+			case '8':
+			case VK_NUMPAD8:
+			case '9':
+			case VK_NUMPAD9:
+			case '0':
+			case VK_NUMPAD0:
+			case 'W':
+			case 'S':
+			case 'A':
+			case 'D':
+			case '.':
+			case ',':
+		
+			return MAIN_WINDOW->PreTranslateMessage(pMsg);
+			break;
+		}
+		break;
+	}
+	
+	//return CDialog::PreTranslateMessage(pMsg);
+	return FALSE;
+}
+

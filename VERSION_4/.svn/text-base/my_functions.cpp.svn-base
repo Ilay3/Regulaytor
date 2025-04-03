@@ -1,0 +1,372 @@
+#include "stdafx.h"
+#include <Lobanov Data\LobanovData.h>		//типы данных СВ
+#include <Hex_and_String\Hex_and_String.h>	//перевод шестнадцатеричных массивов
+
+
+#include "My_functions.h"
+#include "VERSION_4Dlg.h"		//класс главного окна программы
+
+
+//А это указатель на главное окно программы
+CVERSION_4Dlg* pDlg;
+
+/************************************************************************************************
+*		Т.к. наши функции должны иметь доступ к главному классу, то создадим глобальный 
+*	(только для этого файла) указатель, по которому и будет происходить обращение
+************************************************************************************************/
+void InitMyFunctions(CVERSION_4Dlg* pdlg)
+{
+	ASSERT(pdlg);
+	pDlg=pdlg;
+}
+
+/*****************************	real_CompileMessage_?	*********************************************
+**		Эти функции создают пакет, готовый к отправке и записывают его в NextMessage?.text
+**	, попутно заполняя поля длины, контрольной суммы, номер, время отправки и приема.
+***************************************************************************************************/
+bool CompileRequestMessage(CMessage& NextMessage) //собирает NextMessage_1 из главного класса
+{
+	ASSERT(pDlg);
+	
+	/*********************************************************************************
+	*		Пакет для С.В. МПСУ-ТП
+	*	В связи с тем, что напутали в форматах пакетев, приходится вводить поддержку двух
+	*	логически одинаковых пакетов. Первый - с 7 в поле длины даннх. Второй - с 8 в поле
+	*	длины данных. Таким образом поле длины не несет теперь никакую информацию, т.к. как было
+	*	там 6 байт, так и осталось
+	**********************************************************************************/
+	static unsigned char message[255];
+	unsigned char i=0; 
+	static bool pac=false;
+
+	//ПОШЛА ШАПКА СООБЩЕНИЯ
+	message[i++]=pDlg->ProtocolOptions.var_FIRST_BYTE;		//первый символ посылки
+	
+	//Поле длины данных
+	if(pac)
+	{
+		message[i++]=7;		//другая разновидность пакета
+	}
+	else
+	{
+		message[i++]=8;		//одна разновидность пакета
+	}
+
+	pac=!pac;			//переключим для следующего шага
+
+	message[i++]=pDlg->ProtocolOptions.var_MY_ID;	//признак именно этого пакета 
+	//ПОШЛИ ДАННЫЕ
+	//частота вращения
+	/*//++++*/ int_to_SV2BUINT_ST((INT16U)pDlg->GLAVNIY_CLASS.var_UST_Freq_Rot,&message[i]);
+	/*Тестирование на передачу любого числа
+	static INT16U temp=0;
+	int_to_SV2BUINT_ST((INT16U)temp++,&message[i]);*/
+	i++; i++;
+	
+	if(pDlg->GLAVNIY_CLASS.var_UST_OnLoad)
+	{//поездной
+		message[i++]=0xCC;
+	}
+	else
+	{//не поездной
+		message[i++]=0x00;
+	}
+	
+	if(pDlg->GLAVNIY_CLASS.var_UST_Run_Stop)
+	{//ПУСК
+		message[i++]=0x01;
+	}
+	else
+	{//СТОП
+		message[i++]=0x00;
+	}
+
+	// ДОПОЛНЕНИЕ В ПРОТОКОЛЕ
+	// ЕСТЬ РАСШИРЕННЫЙ ПРОТОКОЛ  -  ПЕРЕДАЕТСЯ РЕЙКА!!!
+	if (pDlg->GLAVNIY_CLASS.var_EXT_Protocol == false) {	// ОБЫЧНОЕ СООБЩЕНИЕ
+		//резерв
+		message[i++]=0x00;
+		//резерв
+		message[i++]=0x00;
+	} else {
+	//рейка
+		int_to_SV2BUINT_ST((INT16U)(pDlg->GLAVNIY_CLASS.var_UST_Reyka * 100.0f), &message[i]);
+		i++; i++;
+	}
+
+	//ПОШЛА КОНТРОЛЬНАЯ СУММА
+	char sum=pDlg->ProtocolOptions.CURRENT_SUMM(message,1,i); //первый байт в сумму не входит
+	if( ((CButton *)pDlg->Dlg4.GetDlgItem(IDC_SUM_ER))->GetCheck() == BST_CHECKED )
+	{
+		message[i]=0xbb;	//не наверняка, но зато узнаваемо
+	}
+	else
+	{
+		message[i]=sum;
+	}
+	message[i+1]=0x00;					//на всякий случай
+	NextMessage.text=(unsigned char*) message;
+	NextMessage.summa=sum;
+	NextMessage.nomer=0;
+	NextMessage.priem=30;
+	NextMessage.length=i+1;
+	NextMessage.name="Пакет на электронный регулятор";
+
+	return true;//скомпоновали нормально
+}
+
+bool CompileAnswerMessage(CMessage& NextMessage)
+{
+	ASSERT(pDlg);
+	
+	/*******************************************************************
+	*	Это то, что мне посылает регулятор в ответ на мой запрос.
+	*	Я ввел это сообщение для отладочных целей.
+	********************************************************************/
+	static INT8U message[25];
+	INT8U i=0; 
+
+	//ПОШЛА ШАПКА СООБЩЕНИЯ
+	message[i++]=pDlg->ProtocolOptions.var_FIRST_BYTE;		//первый символ посылки
+	message[i++]=0x14;										//здесь так всегда
+	message[i++]=0x10;										//и здесь тоже
+
+	//ПОШЛИ ДАННЫЕ
+	//частота вращения старший байт
+	int_to_SV2BUINT_ST(rand()%1500, &message[i]);
+	i+=2;
+	//положение рейки, умноженное на 100 (код)
+	int_to_SV2BUINT_ST(rand()%500, &message[i]);
+	i+=2;
+	//температура масла (град)
+	int_to_SV2BUINT_ST(rand()%300, &message[i]);
+	i+=2;
+	//ограничение по наддуву
+	message[i++]=0x00;
+	//обороты турбины
+	int_to_SV2BUINT_ST(rand()%2500, &message[i]);
+	i+=2;
+	//давление наддува
+	int_to_SV2BUINT_ST(rand()%500, &message[i]);
+	i+=2;
+	//признак СТОП
+	message[i++]=0x00;
+	//защита по предельным оборотам
+	message[i++]=0x00;
+	//защита по маслу
+	message[i++]=0x00;
+	//давление масла
+	int_to_SV2BUINT_ST(rand()%500, &message[i]);
+	i+=2;
+	//резерв
+	message[i++]=0x00;
+	message[i++]=0x00;
+
+	//ПОШЛА КОНТРОЛЬНАЯ СУММА
+	INT8U sum=pDlg->ProtocolOptions.CURRENT_SUMM(message,1,i); //первый байт в сумму не входит
+	message[i]=sum;
+	message[i+1]=0x00;					//на всякий случай
+	NextMessage.text=(INT8U*) message;
+	NextMessage.summa=sum;
+	NextMessage.nomer=0;
+	NextMessage.priem=30;
+	NextMessage.length=i+1;
+	NextMessage.name="Ответ регулятора";
+
+	return true;//скомпоновали нормально
+}
+
+/************************ OnVerify(CString * err) *******************************
+**		Проверяет принятое сообщение и распознает его (кому, зачем, с какой информацией)
+**	доводит информацию внутри пакета до адресата и в err сообщает о происшедших ошибках
+**	Там введено распознавание и своих пакетов (которые в принципе в готовой программе
+**	мне приходить не должны), это сделано лишь в целях отладки.
+*******************************************************************************************/
+bool OnVerify(CString * err, unsigned char *ReceiveMessage)
+{
+	ASSERT(err);
+	ASSERT(ReceiveMessage);
+
+	*err="Нет ошибок в идентификации";
+	unsigned char tmp;
+
+	if(ReceiveMessage[2]==pDlg->ProtocolOptions.var_MY_ID && ReceiveMessage[1]==0x14)
+	{
+		*err="МПСУ-ТП передает информацию... ";
+		INT16U var1=SV2BUINT_to_int_ST(&ReceiveMessage[3]);
+		INT16U var2=SV2BUINT_to_int_ST(&ReceiveMessage[5]);
+		INT16U var3=SV2BUINT_to_int_ST(&ReceiveMessage[7]);
+		INT16U var4=SV2BUINT_to_int_ST(&ReceiveMessage[10]);
+		INT16U var5=SV2BUINT_to_int_ST(&ReceiveMessage[12]);
+		INT16U var6=SV2BUINT_to_int_ST(&ReceiveMessage[17]);
+
+
+		pDlg->GLAVNIY_CLASS.Add_Freq_Rot		(false,var1);
+		pDlg->GLAVNIY_CLASS.Add_Reyka			(false,var2/100.f);
+		pDlg->GLAVNIY_CLASS.Add_Oil_Temp		(false,var3);
+		pDlg->GLAVNIY_CLASS.Add_Freq_Turbine	(false,var4*10.f);
+		pDlg->GLAVNIY_CLASS.Add_Nadduv_Pressure	(false,var5/128.f);
+		pDlg->GLAVNIY_CLASS.Add_Oil_Pressure	(false,var6/100.f);
+
+		//ограничение по наддуву
+		pDlg->GLAVNIY_CLASS.Add_Nadduv_Limit(ReceiveMessage[9]);
+		
+		tmp=ReceiveMessage[14];
+		if(tmp==0x00)
+		{//СТОП
+			pDlg->GLAVNIY_CLASS.Add_Run_Stop(false);
+		}
+		else if(tmp==0xfd)
+		{//ПУСК
+			pDlg->GLAVNIY_CLASS.Add_Run_Stop(true);
+		}
+		else
+		{
+			*err=*err+_T("Неопознанный символ в поле признака СТОП");
+		}
+
+		tmp=ReceiveMessage[15];
+		if(tmp==0xFF)
+		{//разнос
+			pDlg->GLAVNIY_CLASS.Add_Raznos(false,true);
+		}
+		else if(tmp==0x00)
+		{//нет разноса
+			pDlg->GLAVNIY_CLASS.Add_Raznos(false,false);
+		}
+		
+		//сигнализация и защита по маслу
+		pDlg->GLAVNIY_CLASS.Add_Oil_Prot(ReceiveMessage[16]);
+
+		pDlg->GLAVNIY_CLASS.m_ReceiveControl=0;	//сбросим счетчик неотвеченных запросов
+	}
+	else if (ReceiveMessage[2]==pDlg->ProtocolOptions.var_MY_ID && (ReceiveMessage[1]==0x08 || ReceiveMessage[1]==0x07))
+	{
+		//ошибка формата пекета
+		pDlg->LINK_FORMATERROR();
+		*err=_T("Пакет отправлен компьютером");
+	}
+	else
+	{
+		//ошибка формата пекета
+		pDlg->LINK_FORMATERROR();
+		*err=_T("Регулятор передал непонятно что");
+	}
+
+
+	return true;	//всё прошло нормально
+}
+
+/******************************   NewReceiveChar(unsigned char ch)   ********************
+*		Галимый протокол предполагает прием с другой контрольной суммой нежели передачей
+****************************************************************************************/
+//bool NewReceiveChar(unsigned char ch)
+//{
+//	/*Общие для всех алгоритмов переменные*/
+//	static unsigned char	pred_char		=	0;						//предыдущий символ
+//	static unsigned char	char_count		=	0;						//количество принятых символов
+//	
+//	
+//	char_count++;//приняли еще один символ
+//	
+//	/*
+//	Включен протокол с элементарным байт-стаффингом. Отличается отсутствием даже предположений на длину пакета,
+//	а значит конец пакета отслеживается только по началу следующего. Следовательно, всегда существует задержка
+//	в один пакет (что ПЛОХО)
+//	*/
+//
+//	static CString	error		=	"Первое сообщение";  //прослеживает ошибки в течении приема
+//	static bool		staf_flag	=	0;						//будет отслеживать байт стаффинг
+//
+//
+//	if(pred_char==pDlg->ProtocolOptions.var_FIRST_BYTE)
+//	{
+//		if(ch!=pDlg->ProtocolOptions.var_STUF_BYTE)
+//		{//новое сообщение
+//			
+//			//здесь мы проверяем корректность чек-суммы предыдущего пакета, т.к. в этом дурном протоколе нету
+//			char sim=pDlg->pUSART_Dlg->pPROTOCOL->ReceiveMessage[char_count-3]; //-3, т.к. теоретически сумма была передана задолго назад
+//		
+//			char sim2=(char)pDlg->ProtocolOptions.CURRENT_SUMM(pDlg->pUSART_Dlg->pPROTOCOL->ReceiveMessage,1,char_count-3);
+//			if(sim!=sim2)
+//			{
+//				error="Ошибка чек-суммы";
+//			}
+//			else
+//			{
+//				error="Нет ошибок";
+//			}
+//
+//			pDlg->pUSART_Dlg->pPROTOCOL->AddInMessageCount();//нарастим число принятых пакетов
+//			//Если не было ошибок в пакете, то распознаем
+//
+//			if(error=="Нет ошибок")
+//			{//Сообщение корректно и его можно распознать
+//				if(!OnVerify(&error, pDlg->pUSART_Dlg->pPROTOCOL->ReceiveMessage))
+//				{
+//					return false;//там произошла глобальная ошибка
+//				}
+//			}
+//			else
+//			{
+//				//error="Пакет принят успешно"; //начнем новую жизнь
+//			}
+//
+//			//запишем в файл предыдущее сообщение
+//			pDlg->pUSART_Dlg->pPROTOCOL->WriteInMesFile(pDlg->pUSART_Dlg->pPROTOCOL->ReceiveMessage,char_count-2,error,false);
+//			
+//			char_count=2; //т.к. 2 символа уже принято
+//			
+//			pDlg->pUSART_Dlg->pPROTOCOL->ReceiveMessage[0]=pDlg->ProtocolOptions.var_FIRST_BYTE;		//|восполним упущенное
+//		}
+//		else
+//		{//это байт стаффинг
+//			char_count--;	//этого символа как-будто не было
+//			//Дальше мы принудительно не запишем этот символ
+//		}
+//	}
+//
+//	if(!(pred_char==pDlg->ProtocolOptions.var_FIRST_BYTE && ch==pDlg->ProtocolOptions.var_STUF_BYTE))
+//	{//если принятый символ - не байтстаффинг
+//		//то это начало нового сообщения
+//		pDlg->pUSART_Dlg->pPROTOCOL->ReceiveMessage[char_count]=0;//чтобы не было глюков при отображении на экране
+//		pDlg->pUSART_Dlg->pPROTOCOL->ReceiveMessage[char_count-1]=ch;
+//	}
+//
+//	if(pDlg->pUSART_Dlg->m_ReceiveMessage.m_hWnd!=NULL)
+//	{//чтобы не попытаться вывести в несуществующее окно
+//		//Если тщательно обмозговать это место, то можно качественно ускорить выполнение
+//		CString str=GiveStrFromHex(pDlg->pUSART_Dlg->pPROTOCOL->ReceiveMessage,char_count);
+//		pDlg->pUSART_Dlg->m_ReceiveMessage.SetWindowText(str);//покажем сообщение 
+//	}
+//
+//	pDlg->pUSART_Dlg->m_InMessageError.SetWindowText(error);//покажем ошибку
+//	pred_char=ch; //чтобы потом был предыдущий символ
+//	return true;
+//}
+
+/*******************   BadMessageReceived(void)  ************************************
+*		Эта функция будет вызываться, когда требуется уведомить главную программу
+*	о событиях, которые происходят со связью. При этом flags будет отвечать за тип 
+*	события.
+	NP_MESSAGE_TRANSFERED		//какое-то сообщение отправлено
+	NP_RECEIVE_PROTOCOL_ERROR	//ошибка при приеме на уровне протокола (например в контрольной сумме)
+	NP_MESSAGE_RESEIVED			//какое-то сообщение принято (вызывается одновременно с OnVerify)
+	NP_TRANSFER_ERROR			//ошибка при передаче на уровне драйвера
+*************************************************************************************/
+void NotifyProgram(INT32U flags)
+{
+	switch (flags)
+	{
+	case NP_MESSAGE_TRANSFERED: 
+		break;
+	case NP_RECEIVE_PROTOCOL_ERROR:
+		pDlg->LINK_FORMATERROR();
+		break;
+	case NP_MESSAGE_RESEIVED:
+		break;
+	case NP_TRANSFER_ERROR:
+		pDlg->LINK_PORTERRROR();
+		break;
+	}
+}

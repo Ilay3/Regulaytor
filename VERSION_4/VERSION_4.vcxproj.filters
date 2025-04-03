@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="VERSION_4Dlg">
+      <UniqueIdentifier>{18df2b24-33e8-4c91-bf6d-c0627400f4f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dlg1">
+      <UniqueIdentifier>{83a1d828-abe5-47f8-a7de-aaed4fa47338}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dlg2">
+      <UniqueIdentifier>{6ccd0cb4-616b-4204-b010-dadded3c015b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dlg3">
+      <UniqueIdentifier>{96e5d39e-9b73-4c74-9d64-4f0e1702a0b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="My functions">
+      <UniqueIdentifier>{13ddda04-efc4-4f45-994f-4c1a155b3152}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dlg5">
+      <UniqueIdentifier>{e5046411-3a47-4489-b293-714276a39eea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ERRORS">
+      <UniqueIdentifier>{76479925-f168-458c-9f0b-f04703641ed1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ColorButton">
+      <UniqueIdentifier>{bcfbbbd2-8bfe-4bb3-bea5-79ae7bf12c09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log File">
+      <UniqueIdentifier>{b80aadd1-9d55-4455-91c6-f4061f05580c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SummCollection">
+      <UniqueIdentifier>{bccd6177-be20-411b-b712-3f2bb3693eeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Types">
+      <UniqueIdentifier>{7e75fcad-1d19-43fe-a100-ae693fd73dbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLAVNIY CLASS">
+      <UniqueIdentifier>{26ff03ff-d4a9-41dd-b001-1caa3420484e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dlg4">
+      <UniqueIdentifier>{b9b88a43-ef4b-4214-a699-51376ffcadc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lobanov Data">
+      <UniqueIdentifier>{93558f6f-e765-4d69-8147-58d643e3ccc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ColorStatic">
+      <UniqueIdentifier>{89142c30-55cb-4689-86a3-d78d17f965c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hex_and_String">
+      <UniqueIdentifier>{b42fcb26-4bda-4993-a644-0cd9f8567c15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NonLinearDlg">
+      <UniqueIdentifier>{4d59108c-60f1-40ba-ad24-b6e5afac28c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NonLinearDlg\GRAPH">
+      <UniqueIdentifier>{26aeebe8-b1bd-496d-bae4-a0903e28c8e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EGU_Control">
+      <UniqueIdentifier>{88d69312-40de-4cda-acc1-b8a58379309d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyEdit">
+      <UniqueIdentifier>{f6eb2f2b-cdb3-444f-bdd9-f75b11b94368}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VERSION_4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VERSION_4Dlg.cpp">
+      <Filter>VERSION_4Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg1.cpp">
+      <Filter>Dlg1</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg2.cpp">
+      <Filter>Dlg2</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg3.cpp">
+      <Filter>Dlg3</Filter>
+    </ClCompile>
+    <ClCompile Include="my_functions.cpp">
+      <Filter>My functions</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg5.cpp">
+      <Filter>Dlg5</Filter>
+    </ClCompile>
+    <ClCompile Include="GlavniyClass.cpp">
+      <Filter>GLAVNIY CLASS</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg4.cpp">
+      <Filter>Dlg4</Filter>
+    </ClCompile>
+    <ClCompile Include="EGUReportDlg.cpp">
+      <Filter>NonLinearDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="EnterNLDlg.cpp">
+      <Filter>NonLinearDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="ModeInputDlg.cpp">
+      <Filter>NonLinearDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="NonLinearDlg.cpp">
+      <Filter>NonLinearDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DataGraph.cpp">
+      <Filter>NonLinearDlg\GRAPH</Filter>
+    </ClCompile>
+    <ClCompile Include="DataPoint.cpp">
+      <Filter>NonLinearDlg\GRAPH</Filter>
+    </ClCompile>
+    <ClCompile Include="LIMGraph.cpp">
+      <Filter>NonLinearDlg\GRAPH</Filter>
+    </ClCompile>
+    <ClCompile Include="LIMGraphCtrl.cpp">
+      <Filter>NonLinearDlg\GRAPH</Filter>
+    </ClCompile>
+    <ClCompile Include="EGUDlg.cpp">
+      <Filter>EGU_Control</Filter>
+    </ClCompile>
+    <ClCompile Include="MyEdit.cpp">
+      <Filter>MyEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\My_libs_for_Visual_C++\ERRORS\ERRORS.cpp">
+      <Filter>ERRORS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\My_libs_for_Visual_C++\Lobanov Data\LobanovData.cpp">
+      <Filter>Lobanov Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\My_libs_for_Visual_C++\Hex_and_String\Hex_and_String.cpp">
+      <Filter>Hex_and_String</Filter>
+    </ClCompile>
+    <ClCompile Include="..\My_libs_for_Visual_C++\ColorStatic\ColorStatic.cpp">
+      <Filter>ColorStatic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\My_libs_for_Visual_C++\ColorButton\ColorButton.cpp">
+      <Filter>ColorButton</Filter>
+    </ClCompile>
+    <ClCompile Include="..\My_libs_for_Visual_C++\LogFile\LogFile.cpp">
+      <Filter>Log File</Filter>
+    </ClCompile>
+    <ClCompile Include="..\My_libs_for_Visual_C++\SummCollection\SummCollection.cpp">
+      <Filter>SummCollection</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VERSION_4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VERSION_4Dlg.h">
+      <Filter>VERSION_4Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlg1.h">
+      <Filter>Dlg1</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlg2.h">
+      <Filter>Dlg2</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlg3.h">
+      <Filter>Dlg3</Filter>
+    </ClInclude>
+    <ClInclude Include="my_functions.h">
+      <Filter>My functions</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlg5.h">
+      <Filter>Dlg5</Filter>
+    </ClInclude>
+    <ClInclude Include="GlavniyClass.h">
+      <Filter>GLAVNIY CLASS</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlg4.h">
+      <Filter>Dlg4</Filter>
+    </ClInclude>
+    <ClInclude Include="EGUReportDlg.h">
+      <Filter>NonLinearDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="EnterNLDlg.h">
+      <Filter>NonLinearDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="ModeInputDlg.h">
+      <Filter>NonLinearDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="NonLinearDlg.h">
+      <Filter>NonLinearDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="DataGraph.h">
+      <Filter>NonLinearDlg\GRAPH</Filter>
+    </ClInclude>
+    <ClInclude Include="DataPoint.h">
+      <Filter>NonLinearDlg\GRAPH</Filter>
+    </ClInclude>
+    <ClInclude Include="LIMGraph.h">
+      <Filter>NonLinearDlg\GRAPH</Filter>
+    </ClInclude>
+    <ClInclude Include="LIMGraphCtrl.h">
+      <Filter>NonLinearDlg\GRAPH</Filter>
+    </ClInclude>
+    <ClInclude Include="EGUDlg.h">
+      <Filter>EGU_Control</Filter>
+    </ClInclude>
+    <ClInclude Include="MyEdit.h">
+      <Filter>MyEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\My_libs_for_Visual_C++\ERRORS\ERRORS.h">
+      <Filter>ERRORS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\My_libs_for_Visual_C++\types_visual_c++.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\My_libs_for_Visual_C++\Lobanov Data\LobanovData.h">
+      <Filter>Lobanov Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\My_libs_for_Visual_C++\Hex_and_String\Hex_and_String.h">
+      <Filter>Hex_and_String</Filter>
+    </ClInclude>
+    <ClInclude Include="..\My_libs_for_Visual_C++\ColorStatic\ColorStatic.h">
+      <Filter>ColorStatic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\My_libs_for_Visual_C++\ColorButton\ColorButton.h">
+      <Filter>ColorButton</Filter>
+    </ClInclude>
+    <ClInclude Include="..\My_libs_for_Visual_C++\LogFile\LogFile.h">
+      <Filter>Log File</Filter>
+    </ClInclude>
+    <ClInclude Include="..\My_libs_for_Visual_C++\SummCollection\SummCollection.h">
+      <Filter>SummCollection</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\VERSION_4.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="VERSION_4.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\VERSION_4.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ABOUT_PROGRAM.txt" />
+  </ItemGroup>
+</Project>

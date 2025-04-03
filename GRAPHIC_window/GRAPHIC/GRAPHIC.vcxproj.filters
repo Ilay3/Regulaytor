@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="GRAPH_Dlg">
+      <UniqueIdentifier>{e35ba03a-19af-4a9b-b8cd-137d78eb5eab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DlgScroll">
+      <UniqueIdentifier>{6a5efb2b-19c6-47dc-9e00-4b9fb41e8a36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DlgFuncOptions">
+      <UniqueIdentifier>{bbf6e68a-c309-40dd-8337-6a8149c8be2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DlgFuncOptions\DlgFuncName">
+      <UniqueIdentifier>{8e81e85d-35fa-468f-bf32-c1d3cbd02f62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DlgCodomain">
+      <UniqueIdentifier>{26d3b065-8cc7-41e7-a12b-2f4ef1f98664}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graph">
+      <UniqueIdentifier>{c10ed200-29dc-4e7f-a17f-2ed809e057d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Function Class">
+      <UniqueIdentifier>{1787bf7e-62bc-4c8e-aa39-99f95683d477}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GraphicOptions">
+      <UniqueIdentifier>{977d2bc1-6c39-4bc3-85c7-30cefb2376ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ERRORS Class">
+      <UniqueIdentifier>{33706feb-212f-4531-be2a-c6cf97181697}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DlgGraphOptions">
+      <UniqueIdentifier>{d323d8ef-8664-4da7-b871-42c84f018d66}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GRAPHIC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GRAPH_Dlg.cpp">
+      <Filter>GRAPH_Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgScroll.cpp">
+      <Filter>DlgScroll</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgFuncOptions.cpp">
+      <Filter>DlgFuncOptions</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgFuncName.cpp">
+      <Filter>DlgFuncOptions\DlgFuncName</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgCodomain.cpp">
+      <Filter>DlgCodomain</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgGraphOpt.cpp">
+      <Filter>DlgGraphOptions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\My_libs_for_Visual_C++\ERRORS\ERRORS.cpp">
+      <Filter>ERRORS Class</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\My_libs_for_Visual_C++\Graph\Graph.cpp">
+      <Filter>Graph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\My_libs_for_Visual_C++\FunctionClass\FunctionClass.cpp">
+      <Filter>Function Class</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GRAPHIC.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="res\GRAPHIC.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MemDC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GRAPH_Dlg.h">
+      <Filter>GRAPH_Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgScroll.h">
+      <Filter>DlgScroll</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgFuncOptions.h">
+      <Filter>DlgFuncOptions</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgFuncName.h">
+      <Filter>DlgFuncOptions\DlgFuncName</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgCodomain.h">
+      <Filter>DlgCodomain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Graph\GraphicOptions.h">
+      <Filter>GraphicOptions</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgGraphOpt.h">
+      <Filter>DlgGraphOptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\My_libs_for_Visual_C++\ERRORS\ERRORS.h">
+      <Filter>ERRORS Class</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\My_libs_for_Visual_C++\Graph\Graph.h">
+      <Filter>Graph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\My_libs_for_Visual_C++\FunctionClass\FunctionClass.h">
+      <Filter>Function Class</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\My_libs_for_Visual_C++\FunctionClass\CDPoint.h">
+      <Filter>Function Class</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bitmap2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GRAPHIC.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\Graph\FileFormats.txt">
+      <Filter>Graph</Filter>
+    </Text>
+    <Text Include="ABOUT_PROGRAM.txt" />
+  </ItemGroup>
+</Project>

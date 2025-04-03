@@ -1,0 +1,82 @@
+#pragma once
+
+class CVERSION_4Dlg;
+
+class CDlg5 : public CDialog
+{
+	DECLARE_DYNAMIC(CDlg5)
+
+public:
+	virtual ~CDlg5();
+
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+
+	DECLARE_MESSAGE_MAP()
+
+	afx_msg void OnBnClickedPosition_1();
+	afx_msg void OnBnClickedPosition_2();
+	afx_msg void OnBnClickedPosition_3();
+	afx_msg void OnBnClickedPosition_4();
+	afx_msg void OnBnClickedPosition_5();
+	afx_msg void OnBnClickedPosition_6();
+	afx_msg void OnBnClickedPosition_7();
+	afx_msg void OnBnClickedPosition_8();
+	afx_msg void OnBnClickedPosition_9();
+	afx_msg void OnBnClickedPosition_10();
+	afx_msg void OnBnClickedPosition_11();
+	afx_msg void OnBnClickedPosition_12();
+	afx_msg void OnBnClickedPosition_13();
+	afx_msg void OnBnClickedPosition_14();
+	afx_msg void OnBnClickedPosition_15();
+
+	afx_msg void OnChangeEdit1();
+	afx_msg void OnChangeEdit2();
+	afx_msg void OnChangeEdit3();
+	afx_msg void OnChangeEdit4();
+	afx_msg void OnChangeEdit5();
+	afx_msg void OnChangeEdit6();
+	afx_msg void OnChangeEdit7();
+	afx_msg void OnChangeEdit8();
+	afx_msg void OnChangeEdit9();
+	afx_msg void OnChangeEdit10();
+	afx_msg void OnChangeEdit11();
+	afx_msg void OnChangeEdit12();
+	afx_msg void OnChangeEdit13();
+	afx_msg void OnChangeEdit14();
+	afx_msg void OnChangeEdit15();
+
+	afx_msg void OnBnClickedSAVE();
+
+	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
+	afx_msg void OnClose();
+	afx_msg void OnOK();
+	afx_msg void OnCANCEL();
+
+	// выпадающий список с доступными портами
+	CComboBox m_ComNumList;
+
+public:
+	
+	// указатель на родителя (главное окно)
+	CVERSION_4Dlg* MAIN_WINDOW;
+
+	virtual BOOL OnInitDialog();
+
+	//флаг, какая позиция была выбрана до этого
+	UINT m_iPred_pos;
+
+	//проверяет правильность значений уставое и, если правильно, записывает их в Positions_data
+	bool CheckAllRight();
+	//сохраняет настройки в файл, или загружает их из него
+	bool Storing(bool save_or_load);
+
+	/*Структура, которая содержит в себе частоту вращения по позициям*/
+	struct Positions_data_struct
+	{
+		int Pos[15];
+	}Positions_data;
+
+	virtual BOOL Create(UINT ID, CVERSION_4Dlg* pParentWnd);
+	afx_msg void OnBnClickedEnableGraph();
+};

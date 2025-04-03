@@ -1,0 +1,296 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// русский resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_GRAPH_DLG DIALOGEX 50, 50, 105, 47
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "Графики"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+END
+
+IDD_SCROLL_BACK DIALOGEX 0, 0, 317, 70
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Прокрутка назад"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_SLIDER,"msctls_trackbar32",TBS_TOP | WS_TABSTOP,7,42,303,21
+    EDITTEXT        IDC_CURRENT,103,17,73,24,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "",IDC_SPIN,"msctls_updown32",0x0,180,16,19,25
+END
+
+IDD_CODOMAIN_DLG DIALOGEX 0, 0, 162, 86
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Видимая область"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Верхний предел:",IDC_STATIC,7,16,81,8
+    LTEXT           "Нижний  предел:",IDC_STATIC,7,40,62,8
+    EDITTEXT        IDC_UPLIMIT,115,17,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_DOWNLIMIT,115,39,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_VISIBLE_TIME,115,64,40,14,ES_AUTOHSCROLL
+    LTEXT           "Отображаемое время:",IDC_STATIC,7,65,95,8
+END
+
+IDD_FUNC_OPT DIALOGEX 0, 0, 274, 210
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Окно настройки отображения функции графика"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,53,190,50,14
+    COMBOBOX        IDC_CURRENT_FUNC,27,19,221,91,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_FUNC_TYPE,23,70,131,73,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_PROPOR_COEF,17,132,54,14,ES_AUTOHSCROLL
+    LTEXT           "Коэффициент пропорциональности:",IDC_STATIC,16,122,124,8
+    PUSHBUTTON      "Выбрать цвет",IDC_COLOR,180,68,61,16
+    LTEXT           "Единица измерения:",IDC_STATIC,17,154,70,8
+    EDITTEXT        IDC_UNIT,17,164,54,14,ES_AUTOHSCROLL
+    GROUPBOX        " Редактируемая функция: ",IDC_STATIC,9,3,254,39
+    GROUPBOX        " Свойства функции: ",IDC_STATIC,9,46,254,141
+    GROUPBOX        "Цвет: ",IDC_STATIC,165,57,90,33
+    CONTROL         "Always Down",IDC_ALWAYS_DOWN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,175,136,59,10
+    GROUPBOX        "Тип функции: ",IDC_STATIC,15,57,146,33
+    PUSHBUTTON      "Название",IDC_FUNC_NAME,175,166,60,14
+    EDITTEXT        IDC_LINE_WIDTH,17,102,44,14,ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "",IDC_LINE_WIDTH_SPIN,"msctls_updown32",UDS_ARROWKEYS,61,102,10,14
+    LTEXT           "Толщина линии",IDC_STATIC,17,92,53,8
+    PUSHBUTTON      "Отмена",IDCANCEL,161,190,50,14
+END
+
+IDD_FUNC_NAME_DLG DIALOGEX 0, 0, 228, 54
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Введите имя функции"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,25,26,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,153,25,50,14
+    EDITTEXT        IDC_FUNCNAME,7,7,214,14,ES_AUTOHSCROLL
+END
+
+IDD_GRAPH_OPT DIALOGEX 0, 0, 298, 156
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Настройка графика"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,55,135,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,197,135,50,14
+    EDITTEXT        IDC_GRAPH_NAME,15,19,269,14,ES_AUTOHSCROLL
+    LTEXT           "Название графика:",IDC_STATIC,29,7,66,8
+    LTEXT           "Цветовое решение:",IDC_STATIC,29,68,68,8
+    COMBOBOX        IDC_COLOR_SCHEME,16,79,267,74,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Количество отметок по горизонтальной оси",IDC_STATIC,17,100,151,8
+    EDITTEXT        IDC_HOR_TICK_COUNT,186,98,40,14,ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "",IDC_SPIN_HOR_TICKS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS,226,98,10,14
+    LTEXT           "Количество отметок по вертикальной оси",IDC_STATIC,17,117,144,8
+    EDITTEXT        IDC_VER_TICK_COUNT,186,115,40,14,ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "",IDC_SPIN_VER_TICKS,"msctls_updown32",UDS_ARROWKEYS,226,115,11,14
+    EDITTEXT        IDC_X_TITLE,15,48,269,14,ES_AUTOHSCROLL
+    LTEXT           "Подпись горизонтальной оси:",IDC_STATIC,29,37,102,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU_FOR_GRAPH MENU 
+BEGIN
+    POPUP "Вид"
+    BEGIN
+        MENUITEM "Function_1",                  171
+        MENUITEM "Function_2",                  ID_FUNCTION_2
+        MENUITEM "Function_3",                  173
+        MENUITEM "Function_4",                  174
+        MENUITEM "Function_5",                  175
+        MENUITEM "Function_6",                  176
+        MENUITEM "Function_7",                  177
+        MENUITEM "Function_8",                  178
+        MENUITEM "Настройка функций",           ID_FUNC_OPT
+        MENUITEM "Настройка графика",           ID_GRAPH_OPT
+    END
+    POPUP "Воспроизведение"
+    BEGIN
+        MENUITEM "Пауза",                       ID_PAUSE
+        MENUITEM "Остановить",                  ID_STOP
+        MENUITEM "Перезапустить",               ID_RESTART
+    END
+    POPUP "Настройки"
+    BEGIN
+        MENUITEM "Прокрутка графика",           ID_MOVE
+        MENUITEM "Видимая область",             ID_CODOMAIN
+    END
+    POPUP "Отчет"
+    BEGIN
+        MENUITEM "Прочесть данные",             ID_LOAD
+        MENUITEM "Сохранить рисунок",           ID_SAVE_BMP
+        POPUP "Сохранить данные"
+        BEGIN
+            MENUITEM "Как график",                  ID_SAVE
+            MENUITEM "Для mathcad",                 ID_SAVE_FOR_MATHCAD
+        END
+        MENUITEM "Печать",                      ID_PRINTGRAPH
+    END
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)\r\n"
+    "LANGUAGE 25, 1\r\n"
+    "#pragma code_page(1251)\r\n"
+    "#include ""res\\GRAPHIC.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "Sergeant Incomporation"
+            VALUE "FileDescription", "Graphic library"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "GRAPHIC.dll"
+            VALUE "LegalCopyright", "(c) Sergeant-technology.  All rights reserved."
+            VALUE "OriginalFilename", "GRAPHIC.dll"
+            VALUE "ProductName", "no"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_FUNC_NAME_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 221
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 47
+    END
+
+    IDD_GRAPH_OPT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 291
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 149
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON                ICON                    "icon1.ico"
+#endif    // русский resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE 25, 1
+#pragma code_page(1251)
+#include "res\GRAPHIC.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"     // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

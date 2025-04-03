@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="PROTOCOL">
+      <UniqueIdentifier>{d2d5acfa-c99d-4797-8eef-cd96246d2a2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hex_and_String">
+      <UniqueIdentifier>{c85c0692-b8f2-4b8e-a3cb-4c49f68365b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RealTimer">
+      <UniqueIdentifier>{7edbf43e-c964-47e1-844e-eed6a5e2332d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ERRORS Class">
+      <UniqueIdentifier>{f0a99c77-0dd7-404d-9319-a926f497e3ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SerialPort">
+      <UniqueIdentifier>{313d5285-db15-4271-a137-c9ea6ee8243c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="USART_Dlg">
+      <UniqueIdentifier>{783438c2-5b34-4270-8897-39b650aaa49d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ColorEdit">
+      <UniqueIdentifier>{a4a80435-f4ad-4eb5-8889-8faff55a240b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProtocolOptions">
+      <UniqueIdentifier>{c6cc0d64-a5f9-4981-a1e5-2fd1ba418a1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FlagsDlg">
+      <UniqueIdentifier>{17564655-e6ff-44eb-aa62-519e67e75236}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ConfigDlg">
+      <UniqueIdentifier>{a29e4380-6eaa-40f0-b99f-9f4ee63049c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Types">
+      <UniqueIdentifier>{77975d3d-4d88-42e3-9ad2-f0934da46170}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ByteStuffing">
+      <UniqueIdentifier>{2c274638-6c40-46e7-9a72-974d72c1a01f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="USART.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PROTOCOL_Struct.cpp">
+      <Filter>PROTOCOL</Filter>
+    </ClCompile>
+    <ClCompile Include="USART_Dlg.cpp">
+      <Filter>USART_Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="FlagsDlg.cpp">
+      <Filter>FlagsDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigDlg.cpp">
+      <Filter>ConfigDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\My_libs_for_Visual_C++\ERRORS\ERRORS.cpp">
+      <Filter>ERRORS Class</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\My_libs_for_Visual_C++\SerialPort\SerialPort.cpp">
+      <Filter>SerialPort</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\My_libs_for_Visual_C++\RealTimer\RealTimer.cpp">
+      <Filter>RealTimer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\My_libs_for_Visual_C++\Hex_and_String\Hex_and_String.cpp">
+      <Filter>Hex_and_String</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\My_libs_for_Visual_C++\ColorEdit\ColorEdit.cpp">
+      <Filter>ColorEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\My_libs_for_Visual_C++\ByteStuffing\ByteStuffing.cpp">
+      <Filter>ByteStuffing</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="USART.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="res\USART.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PROTOCOL_Struct.h">
+      <Filter>PROTOCOL</Filter>
+    </ClInclude>
+    <ClInclude Include="USART_Dlg.h">
+      <Filter>USART_Dlg</Filter>
+    </ClInclude>
+    <ClInclude Include="FlagsDlg.h">
+      <Filter>FlagsDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigDlg.h">
+      <Filter>ConfigDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\types_visual_c++.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\My_libs_for_Visual_C++\ERRORS\ERRORS.h">
+      <Filter>ERRORS Class</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\My_libs_for_Visual_C++\SerialPort\SerialPort.h">
+      <Filter>SerialPort</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\My_libs_for_Visual_C++\RealTimer\RealTimer.h">
+      <Filter>RealTimer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\My_libs_for_Visual_C++\Hex_and_String\Hex_and_String.h">
+      <Filter>Hex_and_String</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\My_libs_for_Visual_C++\ColorEdit\ColorEdit.h">
+      <Filter>ColorEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\My_libs_for_Visual_C++\ByteStuffing\ByteStuffing.h">
+      <Filter>ByteStuffing</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="USART.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ABOUT_PROGRAM.txt" />
+  </ItemGroup>
+</Project>
